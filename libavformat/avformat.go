@@ -55,6 +55,47 @@ type (
 	File C.FILE
 )
 
+const (
+	AvDispositionDefault  = 0x0001
+	AvDispositionDub      = 0x0002
+	AvDispositionOriginal = 0x0004
+	AvDispositionComment  = 0x0008
+	AvDispositionLyrics   = 0x0010
+	AvDispositionKaraoke  = 0x0020
+
+	/**
+	 * Track should be used during playback by default.
+	 * Useful for subtitle track that should be displayed
+	 * even when user did not explicitly ask for subtitles.
+	 */
+	AvDispositionForced          = 0x0040
+	AvDispositionHearingImpaired = 0x0080 /**< stream for hearing impaired audiences */
+	AvDispositionVisualImpaired  = 0x0100 /**< stream for visual impaired audiences */
+	AvDispositionCleanEffects    = 0x0200 /**< stream without voice */
+	/**
+	 * The stream is stored in the file as an attached picture/"cover art" (e.g.
+	 * APIC frame in ID3v2). The first (usually only) packet associated with it
+	 * will be returned among the first few packets read from the file unless
+	 * seeking takes place. It can also be accessed at any time in
+	 * AVStream.attached_pic.
+	 */
+	AvDispositionAttachedPic = 0x0400
+	/**
+	 * The stream is sparse, and contains thumbnail images, often corresponding
+	 * to chapter markers. Only ever used with AvDispositionAttached_pic.
+	 */
+	AvDispositionTimedThumbnails = 0x0800
+
+	/**
+	 * To specify text track kind (different from subtitles default).
+	 */
+	AvDispositionCaptions     = 0x10000
+	AvDispositionDescriptions = 0x20000
+	AvDispositionMetadata     = 0x40000
+	AvDispositionDependent    = 0x80000  ///< dependent audio stream (mix_type=0 in mpegts)
+	AvDispositionStillImage   = 0x100000 ///< still images in video stream (still_picture_flag=1 in mpegts)
+)
+
 // AvformatVersion Return the LIBAvFORMAT_VERSION_INT constant.
 func AvformatVersion() uint {
 	return uint(C.avformat_version())

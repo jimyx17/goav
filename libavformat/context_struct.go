@@ -151,8 +151,13 @@ func (fctx *AvFormatContext) NbChapters() uint {
 }
 
 // Chapters Return chapters
-func (fctx *AvFormatContext) Chapters() **AvChapter {
-	return (**AvChapter)(unsafe.Pointer(fctx.chapters))
+func (fctx *AvFormatContext) Chapters() []*AvChapter {
+	header := reflect.SliceHeader{
+		Data: uintptr(unsafe.Pointer(fctx.chapters)),
+		Len:  int(fctx.NbChapters()),
+		Cap:  int(fctx.NbChapters()),
+	}
+	return *((*[]*AvChapter)(unsafe.Pointer(&header)))
 }
 
 // Metadata Return metadata
@@ -318,4 +323,19 @@ func (fctx *AvFormatContext) MetadataHeaderPadding() int {
 // OutputTsOffset Return output_ts_offset
 func (fctx *AvFormatContext) OutputTsOffset() int64 {
 	return int64(fctx.output_ts_offset)
+}
+
+// OutputTsOffset Return output_ts_offset
+func (fctx *AvFormatContext) Url() string {
+	return C.GoString(fctx.url)
+}
+
+// OutputTsOffset Return output_ts_offset
+func (fctx *AvInputFormat) Name() string {
+	return C.GoString(fctx.name)
+}
+
+// OutputTsOffset Return output_ts_offset
+func (fctx *AvInputFormat) LongName() string {
+	return C.GoString(fctx.long_name)
 }

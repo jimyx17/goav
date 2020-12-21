@@ -66,6 +66,9 @@ func (st *AvStream) SetStartTime(starttime int64) {
 
 // Duration Return duration
 func (st *AvStream) Duration() int64 {
+	if st.duration < 0 {
+		return 0
+	}
 	return int64(st.duration)
 }
 

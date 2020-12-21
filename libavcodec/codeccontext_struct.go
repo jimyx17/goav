@@ -5,6 +5,7 @@ package libavcodec
 
 //#cgo pkg-config: libavcodec
 //#include <libavcodec/avcodec.h>
+//#include <libavutil/opt.h>
 import "C"
 
 import (
@@ -867,3 +868,40 @@ func (cctx *AvCodecContext) SetEncodeParams2(width int, height int, pxlFmt AvPix
 func (cctx *AvCodecContext) SetEncodeParams(width int, height int, pixFmt AvPixelFormat) {
 	cctx.SetEncodeParams2(width, height, pixFmt, false /*no b frames*/, 10)
 }
+
+// TimecodeFrameStart ...
+func (cctx *AvCodecContext) TimecodeFrameStart() int64 {
+	return int64(cctx.timecode_frame_start)
+}
+
+// This is a bad design...
+// libavcodec needs libavutil
+// libavutil needs libavcodec
+// hell no! First create interfaces and
+// make all packages needed other package import the interface
+// but don't create direct dependencies
+// I'm not here to fix ffmpeg to meet a minimum standard quality
+// so.. dirty workaround
+// furthermore, this interface needs some glue code
+func (cctx *AvCodecContext) PrivData() []*AvOption {
+	ret := []*AvOption{}
+	for {
+		opt := &AvOption{}
+		C.av_opt_next(cctx.priv_data, (*C.struct_AVOption)(opt))
+		if opt == nil {
+			break
+		}
+		ret = append(ret, opt)
+	}
+	return ret
+}
+
+// Chapters Return chapters
+// func (fctx *AvFormatContext) Chapters() []*AvChapter {
+// 	header := reflect.SliceHeader{
+// 		Data: uintptr(unsafe.Pointer(fctx.chapters)),
+// 		Len:  int(fctx.NbChapters()),
+// 		Cap:  int(fctx.NbChapters()),
+// 	}
+// 	return *((*[]*AvChapter)(unsafe.Pointer(&header)))
+// }

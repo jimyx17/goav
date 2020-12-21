@@ -9,6 +9,7 @@ package libavutil
 
 //#cgo pkg-config: libavutil
 //#include <libavutil/avutil.h>
+//#include <libavutil/timecode.h>
 //#include <stdlib.h>
 import "C"
 import (
@@ -17,6 +18,7 @@ import (
 
 type (
 	AvOptions     C.struct_AVOptions
+	AvOption      C.struct_AVOption
 	AvTree        C.struct_AVTree
 	AvRational    C.struct_AVRational
 	AvRounding    C.enum_AVRounding
@@ -71,4 +73,13 @@ func AvFopenUtf8(path, mode string) *File {
 // AvGetTimeBaseQ Return the fractional representation of the internal time base.
 func AvGetTimeBaseQ() AvRational {
 	return (AvRational)(C.av_get_time_base_q())
+}
+
+func AvTimecodeMakeMpegTCString(timecode int64) string {
+	if timecode < 0 {
+		return "N/A"
+	}
+	str := [100]C.char{}
+	C.av_timecode_make_mpeg_tc_string((*C.char)(&str[0]), C.uint(timecode))
+	return C.GoString((*C.char)(&str[0]))
 }

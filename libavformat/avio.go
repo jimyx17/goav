@@ -27,9 +27,14 @@ func AvIOOpen(url string, flags int) (ioctx *AvIOContext, err error) {
 func AvIOReaderOpen(r io.Reader, bufferSize int64) (ioctx *AvIOContext, err error) {
 	buf := libavutil.AvMalloc(bufferSize)
 
+	var seeker *[0]byte
+	if _, ok := r.(io.Seeker); ok {
+		seeker = (*[0]byte)(C.AvSeek)
+	}
+
 	p := gopointer.Save(r)
 	ctx := C.avio_alloc_context((*C.uchar)(buf), C.int(bufferSize),
-		0, p, (*[0]byte)(C.AvRead), nil, nil)
+		0, p, (*[0]byte)(C.AvRead), nil, seeker)
 
 	ioctx = (*AvIOContext)(ctx)
 	return

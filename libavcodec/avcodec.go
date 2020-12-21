@@ -55,6 +55,7 @@ type (
 	AvSubtitleRect                C.struct_AVSubtitleRect
 	RcOverride                    C.struct_RcOverride
 	AvBufferRef                   C.struct_AVBufferRef
+	AvOption                      C.struct_AVOption
 	AvAudioServiceType            C.enum_AVAudioServiceType
 	AvChromaLocation              C.enum_AVChromaLocation
 	AvCodecID                     C.enum_AVCodecID

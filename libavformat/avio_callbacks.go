@@ -6,7 +6,6 @@ package libavformat
 import "C"
 import (
 	"io"
-	"log"
 	"unsafe"
 
 	gopointer "github.com/mattn/go-pointer"
@@ -24,7 +23,6 @@ func AvRead(opaque unsafe.Pointer, buff unsafe.Pointer, size int) int {
 
 	n, err := r.Read(data[:])
 	if err != nil {
-		log.Println(err)
 		return libavutil.AvErrorEOF
 	}
 

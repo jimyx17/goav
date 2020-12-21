@@ -3,3 +3,5 @@
 example/versions/versions
 example/tutorial01/tutorial01
 *.ppm
+example/probe/probe
+example/probe/test.avi
