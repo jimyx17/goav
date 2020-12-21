@@ -1,4 +1,4 @@
-module github.com/xueqing/goav
+module github.com/jimyx17/goav
 
 go 1.15
 

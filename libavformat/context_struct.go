@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/xueqing/goav/libavutil"
+	"github.com/jimyx17/goav/libavutil"
 )
 
 // Iformat Return iformat

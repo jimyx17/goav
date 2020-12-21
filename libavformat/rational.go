@@ -7,7 +7,7 @@ package libavformat
 //#include <libavutil/avutil.h>
 import "C"
 import (
-	"github.com/xueqing/goav/libavcodec"
+	"github.com/jimyx17/goav/libavcodec"
 )
 
 func newAvRational(r C.struct_AVRational) libavcodec.AvRational {

@@ -3,13 +3,13 @@ package main
 import (
 	"log"
 
-	"github.com/xueqing/goav/libavcodec"
-	"github.com/xueqing/goav/libavdevice"
-	"github.com/xueqing/goav/libavfilter"
-	"github.com/xueqing/goav/libavformat"
-	"github.com/xueqing/goav/libavutil"
-	"github.com/xueqing/goav/libswresample"
-	"github.com/xueqing/goav/libswscale"
+	"github.com/jimyx17/goav/libavcodec"
+	"github.com/jimyx17/goav/libavdevice"
+	"github.com/jimyx17/goav/libavfilter"
+	"github.com/jimyx17/goav/libavformat"
+	"github.com/jimyx17/goav/libavutil"
+	"github.com/jimyx17/goav/libswresample"
+	"github.com/jimyx17/goav/libswscale"
 )
 
 func main() {

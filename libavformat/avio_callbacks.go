@@ -9,7 +9,7 @@ import (
 	"unsafe"
 
 	gopointer "github.com/mattn/go-pointer"
-	"github.com/xueqing/goav/libavutil"
+	"github.com/jimyx17/goav/libavutil"
 )
 
 //export AvRead

@@ -11,8 +11,8 @@ import (
 	"unsafe"
 
 	gopointer "github.com/mattn/go-pointer"
-	"github.com/xueqing/goav/libavcodec"
-	"github.com/xueqing/goav/libavutil"
+	"github.com/jimyx17/goav/libavcodec"
+	"github.com/jimyx17/goav/libavutil"
 )
 
 // AvIOOpen Create and initialize a AVIOContext for accessing the resource indicated by url.

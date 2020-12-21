@@ -25,10 +25,10 @@ import (
 	"os"
 	"unsafe"
 
-	"github.com/xueqing/goav/libavcodec"
-	"github.com/xueqing/goav/libavformat"
-	"github.com/xueqing/goav/libavutil"
-	"github.com/xueqing/goav/libswscale"
+	"github.com/jimyx17/goav/libavcodec"
+	"github.com/jimyx17/goav/libavformat"
+	"github.com/jimyx17/goav/libavutil"
+	"github.com/jimyx17/goav/libswscale"
 )
 
 // SaveFrame writes a single frame to disk as a PPM file

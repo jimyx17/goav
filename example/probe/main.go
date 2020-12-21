@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/xueqing/goav/libavcodec"
-	"github.com/xueqing/goav/libavformat"
-	"github.com/xueqing/goav/libavutil"
+	"github.com/jimyx17/goav/libavcodec"
+	"github.com/jimyx17/goav/libavformat"
+	"github.com/jimyx17/goav/libavutil"
 )
 
 func main() {

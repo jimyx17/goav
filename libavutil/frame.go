@@ -15,7 +15,7 @@ import (
 	"log"
 	"unsafe"
 
-	"github.com/xueqing/goav/libavcodec"
+	"github.com/jimyx17/goav/libavcodec"
 )
 
 type (
