@@ -18,8 +18,7 @@ func main() {
 	if err != nil {
 		log.Fatal("probe <filename>")
 	}
-	// ctx, err := libavformat.AvIOOpen("test.avi", 0)
-	// ctx, err := libavformat.AvIOBufOpen(fd, 4096)
+
 	ctx, err := libavformat.AvIOReaderOpen(fd, 4096)
 	if err != nil {
 		log.Fatal("could not open context")
@@ -165,6 +164,4 @@ func main() {
 		}
 
 	}
-
-	log.Printf("done %v", fmt.NbStreams())
 }

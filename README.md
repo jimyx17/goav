@@ -1,22 +1,30 @@
 # goav
 Golang binding for FFmpeg
 
-A comprehensive binding to the ffmpeg video/audio manipulation library.
+A binding to the ffmpeg video/audio manipulation library.
+
 
 [![GoDoc](https://godoc.org/github.com/giorgisio/goav?status.svg)](https://godoc.org/github.com/giorgisio/goav)
+
+
+## Jimyx17 library version
+
+This fork is only to play with ffmpeg bindings, nothing else. 
+Don't use it!
+It really needs a full library refactor and some further adaptions.
 
 ## Usage
 
 `````go
 
-import "github.com/xueqing/goav/libavformat"
+import "github.com/jimyx17/goav/libavformat"
 
 func main() {
 
 	filename := "sample.mp4"
 
 	// Register all formats and codecs
-	libavformat.AvRegisterAll()
+	libavformat.AvRegisterAll() // deprecated, no longer needed
 
 	ctx := libavformat.AvformatAllocContext()
 
@@ -69,7 +77,7 @@ export LD_LIBRARY_PATH=$HOME/ffmpeg/lib
 ``` 
 
 ``` 
-go get github.com/xueqing/goav
+go get github.com/jimyx17/goav
 
 ``` 
 
@@ -88,15 +96,16 @@ Coding examples are available in the examples/ directory.
 - Test your code.
 - Create pull request
 
+
 ## TODO
 
-- [ ] Returning Errors
+- [ ] Refactor original goav version
+- [ ] Adapt C interfaces to more standard Go interfaces
+- [ ] Bump up ffmpeg version to 4.3.X
 - [ ] Garbage Collection
-- [X] Review included/excluded functions from each library
 - [ ] Go Tests
-- [ ] Possible restructuring packages
-- [x] Tutorial01.c
-- [ ] More Tutorial
+- [ ] Review included/excluded functions from each library
+- [ ] Examples
 
 ## License
 This library is under the [MIT License](http://opensource.org/licenses/MIT)
