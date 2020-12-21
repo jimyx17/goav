@@ -5,15 +5,29 @@
 //Provides some generic global options, which can be set on all the encoders and decoders.
 package libavcodec
 
-//#cgo pkg-config: libavformat libavcodec libavutil libswresample
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <inttypes.h>
-//#include <stdint.h>
-//#include <string.h>
-//#include <libavformat/avformat.h>
-//#include <libavcodec/avcodec.h>
-//#include <libavutil/avutil.h>
+/*#cgo pkg-config: libavformat libavcodec libavutil libswresample
+#include <stdio.h>
+#include <stdlib.h>
+#include <inttypes.h>
+#include <stdint.h>
+#include <string.h>
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+#include <libavutil/avutil.h>
+#include <libavutil/pixdesc.h>
+#include <libavutil/bprint.h>
+AVBPrint *av_bprint_init_go(){
+	AVBPrint *ret;
+	ret = av_malloc(sizeof(AVBPrint));
+	av_bprint_init(ret, 1, AV_BPRINT_SIZE_UNLIMITED);
+	return ret;
+}
+
+void av_bprint_finalize_go(AVBPrint *buf){
+	av_bprint_finalize(buf, NULL);
+	av_free(buf);
+}
+*/
 import "C"
 import (
 	"unsafe"
@@ -227,4 +241,42 @@ func AvcodecDescriptorGet(id AvCodecID) *AvCodecDescriptor {
 // AvcodecDescriptorGetByName Return codec descriptor with the given name or NULL if no such descriptor exists.
 func AvcodecDescriptorGetByName(name string) *AvCodecDescriptor {
 	return (*AvCodecDescriptor)(C.avcodec_descriptor_get_by_name(C.CString(name)))
+}
+
+func (avcid *AvCodecDescriptor) Name() string {
+	return C.GoString(avcid.name)
+}
+func (avcid *AvCodecDescriptor) LongName() string {
+	return C.GoString(avcid.long_name)
+}
+
+func AvColorRangeName(in AvColorRange) string {
+	return C.GoString(C.av_color_range_name(uint32(in)))
+}
+
+func AvColorSpaceName(in AvColorSpace) string {
+	return C.GoString(C.av_color_space_name(uint32(in)))
+}
+
+func AvColorPrimariesName(in AvColorPrimaries) string {
+	return C.GoString(C.av_color_primaries_name(uint32(in)))
+}
+
+func AvColorTrcName(in AvColorTransferCharacteristic) string {
+	return C.GoString(C.av_color_transfer_name(uint32(in)))
+}
+
+func AvChromaLocationName(in AvChromaLocation) string {
+	return C.GoString(C.av_chroma_location_name(uint32(in)))
+}
+
+func AvGetSampleFmtName(in AvSampleFormat) string {
+	return C.GoString(C.av_get_sample_fmt_name(int32(in)))
+}
+
+func AvChannelLayoutStr(channels int, channelslayout uint64) string {
+	pbuf := C.av_bprint_init_go()
+	defer C.av_bprint_finalize_go(pbuf)
+	C.av_bprint_channel_layout(pbuf, C.int(channels), C.ulong(channelslayout))
+	return C.GoString(pbuf.str)
 }

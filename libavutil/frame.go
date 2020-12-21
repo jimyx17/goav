@@ -6,6 +6,7 @@ package libavutil
 /*
 	#cgo pkg-config: libavutil
 	#include <libavutil/frame.h>
+	#include <libavutil/pixdesc.h>
 	#include <stdlib.h>
 */
 import "C"
@@ -13,6 +14,8 @@ import (
 	"image"
 	"log"
 	"unsafe"
+
+	"github.com/xueqing/goav/libavcodec"
 )
 
 type (
@@ -136,6 +139,11 @@ func GetPictureRGB(frame *AvFrame) (img *image.RGBA, err error) {
 	img.Stride = w
 	log.Println("w", w, "h", h)
 	return
+}
+
+// AvGetPixFmtName get string name for pixel format
+func AvGetPixFmtName(format libavcodec.AvSampleFormat) string {
+	return C.GoString(C.av_get_pix_fmt_name(int32(format)))
 }
 
 // //static int get_video_buffer (AvFrame *frame, int align)

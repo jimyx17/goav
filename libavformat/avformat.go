@@ -25,12 +25,12 @@ import (
 )
 
 type (
-	AvProbeData                C.struct_AVProbeData
-	AvInputFormat              C.struct_AVInputFormat
-	AvOutputFormat             C.struct_AVOutputFormat
-	AvFormatContext            C.struct_AVFormatContext
-	AvFrame                    C.struct_AVFrame
-	AvCodecContext             C.struct_AVCodecContext
+	AvProbeData     C.struct_AVProbeData
+	AvInputFormat   C.struct_AVInputFormat
+	AvOutputFormat  C.struct_AVOutputFormat
+	AvFormatContext C.struct_AVFormatContext
+	AvFrame         C.struct_AVFrame
+	// AvCodecContext             C.struct_AVCodecContext
 	AvIndexEntry               C.struct_AVIndexEntry
 	AvStream                   C.struct_AVStream
 	AvProgram                  C.struct_AVProgram
@@ -126,9 +126,12 @@ func AvProbeInputBuffer2(pb *AvIOContext, format **AvInputFormat, url string, lo
 	cURL := C.CString(url)
 	defer C.free(unsafe.Pointer(cURL))
 
-	return int(C.av_probe_input_buffer2((*C.struct_AVIOContext)(pb),
-		(**C.struct_AVInputFormat)(unsafe.Pointer(format)), cURL,
+	var tmpFmt *AvInputFormat
+	ret := int(C.av_probe_input_buffer2((*C.struct_AVIOContext)(pb),
+		(**C.struct_AVInputFormat)(unsafe.Pointer(&tmpFmt)), cURL,
 		unsafe.Pointer(&logCtx), C.uint(offset), C.uint(maxProbeSize)))
+	*format = tmpFmt
+	return ret
 }
 
 // AvGuessFormat Return the output format in the list of registered output formats which best matches the provided parameters, or return NULL if there is no match.

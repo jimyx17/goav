@@ -1,11 +1,16 @@
 package libavformat
 
-//#cgo pkg-config: libavformat
-//#include <libavformat/avformat.h>
+/*#cgo pkg-config: libavformat
+#include <libavformat/avformat.h>
+extern int AvRead(void *opaque, uint8_t *buf, int buf_size);
+extern int AvWrite(void *opaque, uint8_t *buf, int buf_size);
+extern int64_t AvSeek();*/
 import "C"
 import (
+	"io"
 	"unsafe"
 
+	gopointer "github.com/mattn/go-pointer"
 	"github.com/xueqing/goav/libavcodec"
 	"github.com/xueqing/goav/libavutil"
 )
@@ -16,6 +21,29 @@ func AvIOOpen(url string, flags int) (ioctx *AvIOContext, err error) {
 	defer C.free(unsafe.Pointer(cURL))
 	err = libavutil.ErrorFromCode(int(C.avio_open((**C.AVIOContext)(unsafe.Pointer(&ioctx)), cURL, C.int(flags))))
 	return
+}
+
+// AvIOOpen Create and initialize a AVIOContext for accessing the resource indicated by url.
+func AvIOReaderOpen(r io.Reader, bufferSize int64) (ioctx *AvIOContext, err error) {
+	buf := libavutil.AvMalloc(bufferSize)
+
+	p := gopointer.Save(r)
+	ctx := C.avio_alloc_context((*C.uchar)(buf), C.int(bufferSize),
+		0, p, (*[0]byte)(C.AvRead), nil, nil)
+
+	ioctx = (*AvIOContext)(ctx)
+	return
+}
+
+// AvioClose Close the resource accessed by the AVIOContext s and free it.
+// This function can only be used if s was opened by avio_open().
+// The internal buffer is automatically flushed before closing the resource.
+func (ctxt *AvIOContext) AvioBufClose() error {
+	if ctxt.buffer != nil {
+		libavutil.AvFree(unsafe.Pointer(ctxt.buffer))
+	}
+	libavutil.AvFree(unsafe.Pointer(ctxt))
+	return nil
 }
 
 // AvioClose Close the resource accessed by the AVIOContext s and free it.

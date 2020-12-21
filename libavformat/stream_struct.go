@@ -29,8 +29,8 @@ func (st *AvStream) ID() int {
 }
 
 // Codec Return codec
-func (st *AvStream) Codec() *AvCodecContext {
-	return (*AvCodecContext)(unsafe.Pointer(st.codec))
+func (st *AvStream) Codec() *libavcodec.AvCodecContext {
+	return (*libavcodec.AvCodecContext)(unsafe.Pointer(st.codec))
 }
 
 // PrivData Return priv_data

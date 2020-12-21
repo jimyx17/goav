@@ -15,7 +15,10 @@ package libavcodec
 //#include <libavcodec/avcodec.h>
 //#include <libavutil/avutil.h>
 import "C"
-import "fmt"
+import (
+	"fmt"
+	"unsafe"
+)
 
 // NewAvRational ...
 func NewAvRational(num, den int) AvRational {
@@ -40,6 +43,11 @@ func (r AvRational) Den() int {
 	return int(r.den)
 }
 
+// Q2d
+func (r AvRational) Q2d() float64 {
+	return float64(float64(r.num) / (float64)(r.den))
+}
+
 // Assign ...
 func (r *AvRational) Assign(o AvRational) {
 	r.Set(o.Num(), o.Den())
@@ -59,4 +67,11 @@ func AVRescaleQRnd(a int64, bq, cq AvRational, rnd AvRounding) int64 {
 // AvInvQ Invert a rational.
 func AvInvQ(q AvRational) AvRational {
 	return NewAvRational(q.Den(), q.Num())
+}
+
+func AvReduce(width, height int64, max int) AvRational {
+	var num int
+	var den int
+	C.av_reduce((*C.int)(unsafe.Pointer(&num)), (*C.int)(unsafe.Pointer(&den)), C.long(width), C.long(height), 1024*1024)
+	return NewAvRational(num, den)
 }

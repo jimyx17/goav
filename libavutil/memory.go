@@ -15,7 +15,7 @@ import (
 )
 
 // AvMalloc Allocate a block of size bytes with alignment suitable for all memory accesses (including vectors if available on the CPU).
-func AvMalloc(size uintptr) unsafe.Pointer {
+func AvMalloc(size int64) unsafe.Pointer {
 	return unsafe.Pointer(C.av_malloc(C.size_t(size)))
 }
 

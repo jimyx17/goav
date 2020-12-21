@@ -6,7 +6,9 @@ package libavformat
 //#cgo pkg-config: libavutil
 //#include <libavutil/avutil.h>
 import "C"
-import "github.com/xueqing/goav/libavcodec"
+import (
+	"github.com/xueqing/goav/libavcodec"
+)
 
 func newAvRational(r C.struct_AVRational) libavcodec.AvRational {
 	return libavcodec.NewAvRational(int(r.num), int(r.den))

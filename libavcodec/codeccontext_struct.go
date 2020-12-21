@@ -783,6 +783,11 @@ func (cctx *AvCodecContext) Level() int {
 	return int(cctx.level)
 }
 
+// Level Return level
+func (cctx *AvCodecContext) Properties() uint {
+	return uint(cctx.properties)
+}
+
 // SkipLoopFilter Return skip_loop_filter
 func (cctx *AvCodecContext) SkipLoopFilter() AvDiscard {
 	return (AvDiscard)(cctx.skip_loop_filter)
