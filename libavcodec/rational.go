@@ -30,7 +30,7 @@ func NewAvRational(num, den int) AvRational {
 
 // String ...
 func (r AvRational) String(separator rune) string {
-	return fmt.Sprintf("%d%v%d", int(r.num), separator, int(r.den))
+	return fmt.Sprintf("%d%c%d", int(r.num), separator, int(r.den))
 }
 
 // Num Return num
