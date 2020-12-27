@@ -49,6 +49,7 @@ func main() {
 	log.Printf("Size: %v", "TBF")
 	log.Printf("BitRate: %v", fmt.BitRate())
 	log.Printf("Probe Score: %v", fmt.ProbeScore())
+
 	d := fmt.Metadata()
 	var entry *libavutil.AvDictionaryEntry
 	for i := 0; i < d.AvDictCount(); i++ {
@@ -58,7 +59,7 @@ func main() {
 
 	for _, chpt := range fmt.Chapters() {
 		log.Printf("Chapter ID: %v", chpt.ID())
-		log.Printf("Chapter TimeBase: %v", chpt.TimeBase().String())
+		log.Printf("Chapter TimeBase: %v", chpt.TimeBase().String('/'))
 		log.Printf("Chapter Start: %v", chpt.Start())
 		log.Printf("Chapter Start Time: %v", float64(chpt.Start())*chpt.TimeBase().Q2d())
 		log.Printf("Chapter End: %v", chpt.End())
@@ -77,7 +78,6 @@ func main() {
 		codecCtx := str.Codec()
 		params := str.CodecParameters()
 		log.Printf("Stream Index: %v", str.Index())
-
 		log.Printf("Codec Name: %v", cid.Name())
 		log.Printf("Codec Long Name: %v", cid.LongName())
 		log.Printf("Codec Profile: %v", params.Profile())
@@ -119,7 +119,6 @@ func main() {
 				log.Printf("Field order: unknown")
 			}
 			log.Printf("Timecode: %v", libavutil.AvTimecodeMakeMpegTCString(codecCtx.TimecodeFrameStart()))
-
 		case libavutil.AvmediaTypeAudio:
 			log.Printf("Sample Format: %v", libavcodec.AvGetSampleFmtName(params.Format()))
 			log.Printf("Sample rate: %v", params.SampleRate())
