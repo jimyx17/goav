@@ -29,8 +29,8 @@ func NewAvRational(num, den int) AvRational {
 }
 
 // String ...
-func (r AvRational) String() string {
-	return fmt.Sprintf("%d/%d", int(r.num), int(r.den))
+func (r AvRational) String(separator rune) string {
+	return fmt.Sprintf("%d%v%d", int(r.num), separator, int(r.den))
 }
 
 // Num Return num

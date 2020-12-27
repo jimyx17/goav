@@ -82,7 +82,7 @@ func main() {
 		log.Printf("Codec Long Name: %v", cid.LongName())
 		log.Printf("Codec Profile: %v", params.Profile())
 		log.Printf("Codec Type: %v", params.CodecType())
-		log.Printf("Codec Time Base: %v", codecCtx.TimeBase().String())
+		log.Printf("Codec Time Base: %v", codecCtx.TimeBase().String('/'))
 		log.Printf("Codec Tag String: %v", params.CodecTagString())
 		log.Printf("Codec Tag: 0x%04x", params.CodecTag())
 		switch params.CodecType() {
@@ -94,7 +94,7 @@ func main() {
 			log.Printf("Closed captions: %v", codecCtx.Properties()&0x00000002)
 			log.Printf("has_b_frames: %v", params.VideoDelay())
 			sar := libavformat.AvformatAllocContext().AvGuessSampleAspectRatio(str, nil)
-			log.Printf("Sample Aspect Ratio: %v", sar.String())
+			log.Printf("Sample Aspect Ratio: %v", sar.String(':'))
 			log.Printf("Display Aspect Ratio: %v", libavcodec.AvReduce(int64(params.Width()*sar.Num()),
 				int64(params.Height()*sar.Den()), 1024*1024))
 			log.Printf("Pixel format: %v", libavutil.AvGetPixFmtName(params.Format()))
@@ -132,8 +132,8 @@ func main() {
 		}
 
 		log.Printf("R Frame Rate: %v", str.RFrameRate())
-		log.Printf("Average Frame Rate: %v", str.AvgFrameRate().String())
-		log.Printf("Time Base: %v", str.TimeBase().String())
+		log.Printf("Average Frame Rate: %v", str.AvgFrameRate().String('/'))
+		log.Printf("Time Base: %v", str.TimeBase().String('/'))
 		log.Printf("Start PTS: %v", str.StartTime())
 		log.Printf("Start Time: %v", float64(str.StartTime())*str.TimeBase().Q2d())
 		log.Printf("Duration ts: %v", str.Duration())
