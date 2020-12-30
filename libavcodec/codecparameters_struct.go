@@ -95,8 +95,8 @@ func (cp *AvCodecParameters) SetSampleRate(sr int) {
 }
 
 // SetSampleRate Set sample_rate
-func (cp *AvCodecParameters) BitRate() int {
-	return int(cp.bit_rate)
+func (cp *AvCodecParameters) BitRate() int64 {
+	return int64(cp.bit_rate)
 }
 
 // Profile Get profile name

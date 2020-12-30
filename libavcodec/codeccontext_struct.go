@@ -585,13 +585,13 @@ func (cctx *AvCodecContext) RcOverrideCount() int {
 }
 
 // RcMaxRate Return rc_max_rate
-func (cctx *AvCodecContext) RcMaxRate() int {
-	return int(cctx.rc_max_rate)
+func (cctx *AvCodecContext) RcMaxRate() int64 {
+	return int64(cctx.rc_max_rate)
 }
 
 // RcMinRate Return rc_min_rate
-func (cctx *AvCodecContext) RcMinRate() int {
-	return int(cctx.rc_min_rate)
+func (cctx *AvCodecContext) RcMinRate() int64 {
+	return int64(cctx.rc_min_rate)
 }
 
 // RcMaxAvailableVbvUse Return rc_max_available_vbv_use
