@@ -70,8 +70,8 @@ func (fctx *AvFormatContext) Duration() int64 {
 }
 
 // BitRate Return bit_rate
-func (fctx *AvFormatContext) BitRate() int {
-	return int(fctx.bit_rate)
+func (fctx *AvFormatContext) BitRate() int64 {
+	return int64(fctx.bit_rate)
 }
 
 // PacketSize Return packet_size
