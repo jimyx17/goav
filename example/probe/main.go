@@ -14,7 +14,9 @@ type FS struct {
 }
 
 func (fd *FS) Size() int64 {
+	c, _ := fd.Seek(0, os.SEEK_CUR)
 	o, _ := fd.Seek(0, os.SEEK_END)
+	fd.Seek(c, os.SEEK_SET)
 	return o
 }
 
@@ -38,7 +40,7 @@ func main() {
 	fmt.SetPb(ctx)
 	ret := libavformat.AvformatOpenInput(&fmt, "", nil, nil)
 	if ret < 0 {
-		log.Printf("error opening input")
+		log.Fatalln("error opening input")
 	}
 
 	ret = fmt.AvformatFindStreamInfo(nil)

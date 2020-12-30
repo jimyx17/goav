@@ -54,7 +54,7 @@ func AvWrite(opaque unsafe.Pointer, buff unsafe.Pointer, size int) int {
 }
 
 //export AvSeek
-func AvSeek(opaque unsafe.Pointer, offset int64, whence int32) int64 {
+func AvSeek(opaque unsafe.Pointer, offset int64, whence int) int64 {
 	s, ok := gopointer.Restore(opaque).(io.Seeker)
 	if !ok {
 		return -1
@@ -62,7 +62,8 @@ func AvSeek(opaque unsafe.Pointer, offset int64, whence int32) int64 {
 
 	if whence == 0x10000 {
 		if s, ok := gopointer.Restore(opaque).(Sizer); ok {
-			return s.Size()
+			ret := s.Size()
+			return ret
 		}
 		return -1
 	}
