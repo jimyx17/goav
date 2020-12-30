@@ -4,15 +4,16 @@ package libavformat
 #include <libavformat/avformat.h>
 extern int AvRead(void *opaque, uint8_t *buf, int buf_size);
 extern int AvWrite(void *opaque, uint8_t *buf, int buf_size);
-extern int64_t AvSeek();*/
+extern int64_t AvSeek(void *opaque, int64_t pos, int whence);
+*/
 import "C"
 import (
 	"io"
 	"unsafe"
 
-	gopointer "github.com/mattn/go-pointer"
 	"github.com/jimyx17/goav/libavcodec"
 	"github.com/jimyx17/goav/libavutil"
+	gopointer "github.com/mattn/go-pointer"
 )
 
 // AvIOOpen Create and initialize a AVIOContext for accessing the resource indicated by url.
@@ -34,7 +35,7 @@ func AvIOReaderOpen(r io.Reader, bufferSize int64) (ioctx *AvIOContext, err erro
 
 	p := gopointer.Save(r)
 	ctx := C.avio_alloc_context((*C.uchar)(buf), C.int(bufferSize),
-		0, p, (*[0]byte)(C.AvRead), nil, seeker)
+		0, p, (*[0]byte)(C.AvRead), nil, (*[0]byte)(seeker))
 
 	ioctx = (*AvIOContext)(ctx)
 	return

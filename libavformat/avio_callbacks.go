@@ -1,16 +1,21 @@
 package libavformat
 
-//#cgo pkg-config: libavformat
-//#include <libavformat/avformat.h>
-//#define AVERROR_EOF                FFERRTAG( 'E','O','F',' ')
+/*#cgo pkg-config: libavformat
+#include <libavformat/avformat.h>
+#define AVERROR_EOF                FFERRTAG( 'E','O','F',' ')
+*/
 import "C"
 import (
 	"io"
 	"unsafe"
 
-	gopointer "github.com/mattn/go-pointer"
 	"github.com/jimyx17/goav/libavutil"
+	gopointer "github.com/mattn/go-pointer"
 )
+
+type Sizer interface {
+	Size() int64
+}
 
 //export AvRead
 func AvRead(opaque unsafe.Pointer, buff unsafe.Pointer, size int) int {
@@ -49,13 +54,20 @@ func AvWrite(opaque unsafe.Pointer, buff unsafe.Pointer, size int) int {
 }
 
 //export AvSeek
-func AvSeek(opaque unsafe.Pointer, offset int64, whence int) int64 {
+func AvSeek(opaque unsafe.Pointer, offset int64, whence int32) int64 {
 	s, ok := gopointer.Restore(opaque).(io.Seeker)
 	if !ok {
 		return -1
 	}
 
-	n, err := s.Seek(offset, whence)
+	if whence == 0x10000 {
+		if s, ok := gopointer.Restore(opaque).(Sizer); ok {
+			return s.Size()
+		}
+		return -1
+	}
+
+	n, err := s.Seek(offset, int(whence))
 	if err != nil {
 		return -1
 	}

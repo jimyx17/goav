@@ -9,15 +9,25 @@ import (
 	"github.com/jimyx17/goav/libavutil"
 )
 
+type FS struct {
+	os.File
+}
+
+func (fd *FS) Size() int64 {
+	o, _ := fd.Seek(0, os.SEEK_END)
+	return o
+}
+
 func main() {
 
 	if len(os.Args) != 2 {
 		log.Fatal("probe <filename>")
 	}
-	fd, err := os.Open(os.Args[1])
+	tmpfd, err := os.Open(os.Args[1])
 	if err != nil {
 		log.Fatal("probe <filename>")
 	}
+	fd := &FS{*tmpfd}
 
 	ctx, err := libavformat.AvIOReaderOpen(fd, 4096)
 	if err != nil {
